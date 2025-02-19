@@ -1,0 +1,30 @@
+configuration {
+  modes: [ combi ];
+  combi-modes: [ window, drun, run ];
+}
+@theme "arthur"
+
+window {
+    width: var( width, 30%);
+    height: var(height, 70%);
+}
+
+element {
+  orientation: horizontal;
+  children: [ element-icon, element-text ];
+  spacing: 5px;
+}
+
+element-icon {
+    size: 5em;
+}
+
+element-text {
+    vertical-align: 0.5;
+    horizontal-align:0.5;
+    
+}
+
+button {
+    background-color: #CEFFFD;
+}
