@@ -19,7 +19,9 @@ packages = [
     "imagemagick",
     "make",
     "unzip",
-    "bat"
+    "bat",
+    "jq",
+    "glow"
 ]
 
 desktop_packages = {
@@ -35,22 +37,22 @@ desktop_packages = {
     'gnome':[
         'gnome-shell',
         'ubuntu-desktop-minimal',
+        'gnome-tweaks'
     ]
 }
 
 
 terminal_packages = {
-    'blackbox': ['blackbox-terminal'],
+    'blackbox-terminal': ['blackbox-terminal'],
     'gnome-terminal': ['gnome-terminal']
 }
 
 
 other_packages = {
-    'red':[
+    'contendores':['podman'],
+    'redes':[
         'nmap',
         'wireshark',
-        'hydra',
-        'sqlmap',
         'bettercap',
         'netcat'
     ],
@@ -58,6 +60,14 @@ other_packages = {
         'wfuzz',
         'whatweb'
     ],
-    'hash' : ['hashcat'],
-    'db': ['sqlitebrowser']
+    'hash' : ['hashcat','hydra'],
+    'db': ['sqlitebrowser','sqlmap']
+}
+
+pipx_packages = {
+    'git':['git-dumper'],
+    'directorio activo': [
+        'ensurepath',
+        'bloodhound-ce'
+        ]
 }

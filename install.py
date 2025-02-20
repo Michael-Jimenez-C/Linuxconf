@@ -60,13 +60,23 @@ terminal = questionary.select(
     choices=[
         'gnome-terminal',
         'kitty',
-        'blackbox',
+        'blackbox-terminal',
         'Ninguna'
     ]
 ).ask()
 
 if rust or rust_:
     wallust = questionary.confirm("Instalar wallust?").ask()
+
+list_pk = script.other_packages
+pk_inst=questionary.checkbox(
+f"Paquetes {opcion} a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
+).ask()
+
+list_pk = script.pipx_packages
+pipx_inst=questionary.checkbox(
+f"Paquetes pipx a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
+).ask()
 
 if __name__ == '__main__':
 
@@ -92,5 +102,9 @@ if __name__ == '__main__':
     (rust or rust_) and yazi and script.installYazi()
 
     (rust or rust_) and wallust and script.installWallust()
+
+    script.installOptionalPKG(pk_inst)
+    script.installPipxPKG(pipx_inst)
+
 
     script.end(desktop)

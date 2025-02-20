@@ -1,4 +1,4 @@
-from .packages import packages, desktop_packages, terminal_packages
+from .packages import packages, desktop_packages, terminal_packages, other_packages, pipx_packages
 from modules.commons import HOME, USER, PWD
 import time
 import os
@@ -87,9 +87,9 @@ def __kittyInstall():
 def __LoadConfigForTerminal(terminal, desktop):
     match terminal:
         case 'gnome-terminal':
-            os.system("dconf load /org/gnome/terminal/ < dotfiles/terminal/gnome-terminal")
+            os.system(f"dconf load /org/gnome/terminal/ < {PWD}/dotfiles/terminal/gnome-terminal")
         case 'blackbox-terminal':
-            os.system("dconf load /com/raggesilver/blackbox < dotfiles/terminal/blackbox")
+            os.system(f"dconf load /com/raggesilver/blackbox < {PWD}/dotfiles/terminal/blackbox")
     if desktop == 'bspwm':
         tmpcnf = open(f"{HOME}/.config/sxhkd/sxhkdrc", "r").readlines()
         with open(f"{HOME}/.config/sxhkd/sxhkdrc", "w") as file:
@@ -105,6 +105,14 @@ def installWallust():
         with open(f'{HOME}/.zshrc','a')as file:
             file.write('\n\n')
             file.write(f'wallust run {HOME}/.local/share/fondos/fondo.png >/dev/null &')
+
+def installOptionalPKG(groups):
+    for group in groups:
+        os.system("sudo apt install -y " + " ".join(other_packages[group]))
+
+def installPipxPKG(groups):
+    for group in groups:
+        os.system(f"pipx install {' '.join(pipx_packages[group])}")
 
 def end(desktop):
     print(
