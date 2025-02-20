@@ -1,6 +1,7 @@
 import questionary
 from modules.commons import HOME, USER
 import sys
+
 print("""
       No se recomienda ejecutar este script como superusuario.
       """)
@@ -36,26 +37,60 @@ desktop = questionary.select(
 
 fonts = questionary.confirm("Instalar fuentes Nerd Fonts?").ask()
 
-kind = questionary.select(
+kind = None
+'''= questionary.select(
     "Quieres copiar mis dotfiles o los de d3vjh?",
     choices=[
         'Michael',
         'd3vjh'
     ]
+).ask()'''
+
+rust = questionary.confirm("Instalar rust? (esto permitirá instalar yazi)").ask()
+rust_ = False
+if not rust:
+    rust_ = questionary.confirm("Ya está instalado rust?").ask()
+
+yazi = False
+if rust or rust_:
+    yazi = questionary.confirm("Instalar yazi?").ask()
+
+terminal = questionary.select(
+    "Quieres instalar una terminal?",
+    choices=[
+        'gnome-terminal',
+        'kitty',
+        'blackbox',
+        'Ninguna'
+    ]
 ).ask()
 
-rust = questionary.confirm("instalar rust? (esto permitirá instalar yazi)").ask()
-yazi = False
-if rust:
-    yazi = questionary.confirm("instalar yazi?").ask()
+if rust or rust_:
+    wallust = questionary.confirm("Instalar wallust?").ask()
 
+if __name__ == '__main__':
 
-script.SetUpDirectories()
-script.PackageSetup()
-desktop != 'Ninguno' and script.installEnviroment(desktop)
-fonts and script.InstallFonts()
-script.setUpDotfilesFor(desktop, kind=kind)
-rust and script.setUpRust()
-rust and yazi and script.installYazi()
-script.installPowerLevel10K()
-script.installNvim()
+    script.SetUpDirectories()
+
+    script.PackageSetup()
+
+    desktop != 'Ninguno' and script.installEnviroment(desktop)
+
+    fonts and script.InstallFonts()
+
+    script.setUpDotfilesFor(desktop, kind=kind)
+
+    script.installPowerLevel10K()
+
+    script.installNvim()
+
+    terminal != 'Ninguna' and script.installTerminal(terminal)
+
+    wallust and script.installWallust()
+
+    rust and script.setUpRust()
+    (rust or rust_) and yazi and script.installYazi()
+
+    (rust or rust_) and wallust and script.installWallust()
+
+    script.end(desktop)

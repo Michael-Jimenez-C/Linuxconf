@@ -1,4 +1,4 @@
-from .packages import packages, desktop_packages
+from .packages import packages, desktop_packages, terminal_packages
 from modules.commons import HOME, USER, PWD
 import time
 import os
@@ -15,7 +15,8 @@ def SetUpDirectories():
     os.system("sudo mkdir -p /usr/share/fonts/truetype")
     
 def PackageSetup():
-    os.system("sudo apt update && sudo apt upgrade -y")
+    os.system("sudo apt update > /dev/null")
+    os.system("sudo apt upgrade -y > /dev/null")
     os.system("sudo apt install -y " + " ".join(packages))
     os.system('chsh -s /usr/bin/zsh')
 
@@ -54,8 +55,8 @@ def installYazi():
 
 def installPowerLevel10K():
     os.chdir(HOME)
-    os.system("git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k")
-    os.system("echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc")
+    os.system(f"git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {HOME}/powerlevel10k")
+    os.system(f"echo 'source {HOME}/powerlevel10k/powerlevel10k.zsh-theme' >>{HOME}/.zshrc")
     os.chdir(PWD)
 
 def installNvim():
@@ -66,3 +67,43 @@ def installNvim():
     os.system(f"ln -s {HOME}/.local/nvim/nvim-linux-x86_64/bin/nvim {HOME}/.local/bin/nvim")
     os.system(PWD)
     os.system("git clone https://github.com/NvChad/starter ~/.config/nvim")
+
+def installTerminal(terminal):
+    if terminal == 'kitty':
+        __kittyInstall()
+    if terminal in terminal_packages:
+        os.system("sudo apt install -y " + " ".join(terminal_packages[terminal]))
+        __LoadConfigForTerminal(terminal)
+
+def __kittyInstall():
+    os.system("curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
+    os.system(f"ln -sf {HOME}/.local/kitty.app/bin/kitty {HOME}/.local/kitty.app/bin/kitten {HOME}/.local/bin/")
+    os.system(f"cp {HOME}/.local/kitty.app/share/applications/kitty.desktop {HOME}/.local/share/applications/")
+    os.system(f"cp {HOME}/.local/kitty.app/share/applications/kitty-open.desktop {HOME}/.local/share/applications/")
+    os.system(f'sed -i "s|Icon=kitty|Icon=$(readlink -f {HOME})/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" {HOME}/.local/share/applications/kitty*.desktop')
+    os.system(f'sed -i "s|Exec=kitty|Exec=$(readlink -f {HOME})/.local/kitty.app/bin/kitty|g" {HOME}/.local/share/applications/kitty*.desktop')
+    os.system(f"echo 'kitty.desktop' > {HOME}/.config/xdg-terminals.list")
+
+def __LoadConfigForTerminal(terminal):
+    match terminal:
+        case 'gnome-terminal':
+            os.system("dconf load /org/gnome/terminal/ < dotfiles/terminal/gnome-terminal")
+        case 'blackbox':
+            os.system("dconf load /com/raggesilver/blackbox < dotfiles/terminal/blackbox")
+
+
+def installWallust():
+    os.system("cargo install wallust")
+    if 'wallust' not in open(f'{HOME}/.zshrc').read():
+        with open(f'{HOME}/.zshrc','a')as file:
+            file.write('\n\n')
+            file.write(f'wallust run {HOME}/.local/share/fondos/fondo.png >/dev/null &')
+
+def end(desktop):
+    print(
+    f"""
+    Los archivos de configuración se encuentran en {HOME}/.config
+    La imagen de fondo por defecto está en {HOME}/.local/share/fondos
+    si deseas cambiarla recuerda modificar .zshrc {'Y el entorno de escritorio '+desktop if desktop != 'Ninguno' else ''}
+    """
+    )

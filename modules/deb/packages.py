@@ -33,3 +33,9 @@ desktop_packages = {
         "gnome-terminal"
         ]
 }
+
+
+terminal_packages = {
+    'blackbox': ['blackbox-terminal'],
+    'gnome-terminal': ['gnome-terminal']
+}
