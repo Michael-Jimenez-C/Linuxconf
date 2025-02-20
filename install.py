@@ -65,6 +65,7 @@ terminal = questionary.select(
     ]
 ).ask()
 
+wallust = None
 if rust or rust_:
     wallust = questionary.confirm("Instalar wallust?").ask()
 
