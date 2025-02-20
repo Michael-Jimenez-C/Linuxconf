@@ -31,11 +31,33 @@ desktop_packages = {
         "polybar",
         "feh",
         "gnome-terminal"
-        ]
+        ],
+    'gnome':[
+        'gnome-shell',
+        'ubuntu-desktop-minimal',
+    ]
 }
 
 
 terminal_packages = {
     'blackbox': ['blackbox-terminal'],
     'gnome-terminal': ['gnome-terminal']
+}
+
+
+other_packages = {
+    'red':[
+        'nmap',
+        'wireshark',
+        'hydra',
+        'sqlmap',
+        'bettercap',
+        'netcat'
+    ],
+    'web': [
+        'wfuzz',
+        'whatweb'
+    ],
+    'hash' : ['hashcat'],
+    'db': ['sqlitebrowser']
 }

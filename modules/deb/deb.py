@@ -68,12 +68,12 @@ def installNvim():
     os.system(PWD)
     os.system("git clone https://github.com/NvChad/starter ~/.config/nvim")
 
-def installTerminal(terminal):
+def installTerminal(terminal,desktop):
     if terminal == 'kitty':
         __kittyInstall()
     if terminal in terminal_packages:
         os.system("sudo apt install -y " + " ".join(terminal_packages[terminal]))
-        __LoadConfigForTerminal(terminal)
+        __LoadConfigForTerminal(terminal,desktop)
 
 def __kittyInstall():
     os.system("curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")

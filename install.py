@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     script.installNvim()
 
-    terminal != 'Ninguna' and script.installTerminal(terminal)
+    terminal != 'Ninguna' and script.installTerminal(terminal, desktop)
 
     wallust and script.installWallust()
 
