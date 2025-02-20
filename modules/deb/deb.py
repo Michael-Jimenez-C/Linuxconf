@@ -108,11 +108,11 @@ def installWallust():
 
 def installOptionalPKG(groups):
     for group in groups:
-        os.system("sudo apt install -y " + " ".join(other_packages[group]))
+        os.system("sudo apt install -y " + " ".join(other_packages[group.split(':')[0]]))
 
 def installPipxPKG(groups):
     for group in groups:
-        os.system(f"pipx install {' '.join(pipx_packages[group])}")
+        os.system(f"pipx install {' '.join(pipx_packages[group.split(':')[0]])}")
 
 def end(desktop):
     print(
