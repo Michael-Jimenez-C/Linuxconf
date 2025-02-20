@@ -84,13 +84,20 @@ def __kittyInstall():
     os.system(f'sed -i "s|Exec=kitty|Exec=$(readlink -f {HOME})/.local/kitty.app/bin/kitty|g" {HOME}/.local/share/applications/kitty*.desktop')
     os.system(f"echo 'kitty.desktop' > {HOME}/.config/xdg-terminals.list")
 
-def __LoadConfigForTerminal(terminal):
+def __LoadConfigForTerminal(terminal, desktop):
     match terminal:
         case 'gnome-terminal':
             os.system("dconf load /org/gnome/terminal/ < dotfiles/terminal/gnome-terminal")
-        case 'blackbox':
+        case 'blackbox-terminal':
             os.system("dconf load /com/raggesilver/blackbox < dotfiles/terminal/blackbox")
-
+    if desktop == 'bspwm':
+        tmpcnf = open(f"{HOME}/.config/sxhkd/sxhkdrc", "r").readlines()
+        with open(f"{HOME}/.config/sxhkd/sxhkdrc", "w") as file:
+            for line in tmpcnf:
+                if "gnome-terminal" in line:
+                    file.write(line.replace("gnome-terminal", terminal))
+                else:
+                    file.write(line)
 
 def installWallust():
     os.system("cargo install wallust")
