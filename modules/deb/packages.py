@@ -20,8 +20,7 @@ packages = [
     "make",
     "unzip",
     "bat",
-    "jq",
-    "glow"
+    "jq"
 ]
 
 desktop_packages = {
