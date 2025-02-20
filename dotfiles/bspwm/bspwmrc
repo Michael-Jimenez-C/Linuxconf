@@ -16,6 +16,6 @@ bspc rule -a Chromium desktop='^2'
 bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
-feh --bg-center ~/.local/share/fondos/2020111110014450985.jpg &
+feh --bg-center ~/.local/share/fondos/fondo.png &
 picom --config "$HOME/.config/picom/picom.conf" 2>/dev/null &
 polybar --config="$HOME/.config/polybar/config.ini" &
