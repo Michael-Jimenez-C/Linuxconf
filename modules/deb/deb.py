@@ -8,8 +8,8 @@ def SetUpDirectories():
         f"{HOME}/.local",
         f"{HOME}/.local/bin",
         f"{HOME}/.local/share",
-        f"{HOME}/.local/share/fondos/"
-        f"{HOME}/.local/.nvim"
+        f"{HOME}/.local/share/fondos/",
+        f"{HOME}/.local/nvim"
     ]
     os.system("mkdir -p "+" ".join(dirs))
     os.system("sudo mkdir -p /usr/share/fonts/truetype")
@@ -17,6 +17,7 @@ def SetUpDirectories():
 def PackageSetup():
     os.system("sudo apt update && sudo apt upgrade -y")
     os.system("sudo apt install -y " + " ".join(packages))
+    os.system('chsh -s /usr/bin/zsh')
 
 def installEnviroment(desktop):
     os.system("sudo apt install -y " + " ".join(desktop_packages[desktop]))
@@ -27,6 +28,7 @@ def InstallFonts():
     os.system("wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.zip")
     os.system("unzip Meslo.zip -d meslo")
     os.system("sudo cp meslo/MesloLGSNerdFontMono-Regular.ttf /usr/share/fonts/truetype/")
+    os.system("sudo cp meslo/MesloLGSNerdFont-Regular.ttf /usr/share/fonts/truetype/")
 
 def setUpDotfilesFor(desktop, kind=None):
     path = 'dotfiles'
