@@ -35,8 +35,10 @@ desktop_packages = {
         ],
     'gnome':[
         'gnome-shell',
-        'ubuntu-desktop-minimal',
-        'gnome-tweaks'
+        'ubuntu-gnome-desktop',
+        'gnome-tweaks',
+        'language-pack-gnome-es',
+        'gnome-shell-extensions'
     ]
 }
 
@@ -52,8 +54,7 @@ other_packages = {
     'redes':[
         'nmap',
         'wireshark',
-        'bettercap',
-        'netcat'
+        'bettercap'
     ],
     'web': [
         'wfuzz',

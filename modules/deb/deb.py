@@ -15,8 +15,8 @@ def SetUpDirectories():
     os.system("sudo mkdir -p /usr/share/fonts/truetype")
     
 def PackageSetup():
-    os.system("sudo apt update > /dev/null")
-    os.system("sudo apt upgrade -y > /dev/null")
+    os.system("sudo apt update")
+    os.system("sudo apt upgrade -y")
     os.system("sudo apt install -y " + " ".join(packages))
     os.system('chsh -s /usr/bin/zsh')
 
@@ -33,9 +33,6 @@ def InstallFonts():
 
 def setUpDotfilesFor(desktop, kind=None):
     path = 'dotfiles'
-    if kind=='d3vjh':
-        os.system("git clone https://github.com/d3vjh/Dotfiles.git")
-        path = 'Dotfiles'
     if desktop == 'bspwm':
         os.system(f'cp -r {path}/* {HOME}/.config/')
     os.system(f'cp {path}/.zshrc {HOME}/.zshrc')
@@ -46,9 +43,10 @@ def setUpRust():
     os.system("rustup update")
 
 def installYazi():
+    os.system(f"source {HOME}/.cargo/env")
     os.system("git clone https://github.com/sxyazi/yazi.git")
     os.chdir("yazi")
-    os.system("cargo build --release --locked")
+    os.system("{HOME}/.cargo/bin/cargo build --release --locked")
     time.sleep(1)
     os.system("mv target/release/yazi target/release/ya $HOME/.local/bin")
     os.chdir(PWD)
@@ -73,7 +71,7 @@ def installTerminal(terminal,desktop):
         __kittyInstall()
     if terminal in terminal_packages:
         os.system("sudo apt install -y " + " ".join(terminal_packages[terminal]))
-        __LoadConfigForTerminal(terminal,desktop)
+    __LoadConfigForTerminal(terminal,desktop)
 
 def __kittyInstall():
     os.system("curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin")
@@ -90,6 +88,9 @@ def __LoadConfigForTerminal(terminal, desktop):
             os.system(f"dconf load /org/gnome/terminal/ < {PWD}/dotfiles/terminal/gnome-terminal")
         case 'blackbox-terminal':
             os.system(f"dconf load /com/raggesilver/blackbox < {PWD}/dotfiles/terminal/blackbox")
+        case 'kitty':
+            os.system(f'git clone https://github.com/d3vjh/Dotfiles.git')
+            os.system(f'cp -r Dotfiles/kitty {HOME}/.config/')
     if desktop == 'bspwm':
         tmpcnf = open(f"{HOME}/.config/sxhkd/sxhkdrc", "r").readlines()
         with open(f"{HOME}/.config/sxhkd/sxhkdrc", "w") as file:
@@ -100,7 +101,7 @@ def __LoadConfigForTerminal(terminal, desktop):
                     file.write(line)
 
 def installWallust():
-    os.system("cargo install wallust")
+    os.system(f"{HOME}/.cargo/bin/cargo install wallust")
     if 'wallust' not in open(f'{HOME}/.zshrc').read():
         with open(f'{HOME}/.zshrc','a')as file:
             file.write('\n\n')

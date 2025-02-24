@@ -97,8 +97,6 @@ if __name__ == '__main__':
 
     terminal != 'Ninguna' and script.installTerminal(terminal, desktop)
 
-    wallust and script.installWallust()
-
     rust and script.setUpRust()
     (rust or rust_) and yazi and script.installYazi()
 
