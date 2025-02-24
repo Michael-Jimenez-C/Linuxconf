@@ -57,15 +57,17 @@ other_packages = {
     ],
     'web': [
         'wfuzz',
-        'whatweb'
+        'whatweb',
+        'ffuf'
     ],
     'hash' : ['hashcat','hydra'],
-    'db': ['sqlitebrowser','sqlmap']
+    'db': ['sqlitebrowser','sqlmap'],
+    'Directorio Activo': ['smb-client']
 }
 
 pipx_packages = {
     'git':['git-dumper'],
-    'directorio activo': [
+    'Directorio Activo': [
         'ensurepath',
         'bloodhound-ce'
         ]
