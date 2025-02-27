@@ -2,6 +2,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+unsetopt beep notify
+
 #PATH
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.local/bin:$HOME/.cargo/bin
 source ~/powerlevel10k/powerlevel10k.zsh-theme

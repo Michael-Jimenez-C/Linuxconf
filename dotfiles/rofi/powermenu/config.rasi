@@ -1,11 +1,12 @@
 * {
   bg0: #0D0D0DAF;
-  fg0: #7773F0;
+  fg0: #d35f5e;
   transparent: #00000000;
 
   background-color: @transparent; 
   foreground: @fg0;
   border-radius: 20px;
+  
 }
 
 configuration {
@@ -15,38 +16,32 @@ configuration {
 
 mainbox{
   spacing:2em;
+  children: [listview];
 }
-
 window {
   background-color: @bg0;
   color: white;
   padding: 1em;
-  width: var( width, 90%);
-  height: var(height, 90%);
   border: none;
+  anchor: center;
+  location: center;
 }
-
-inputbar {
-  border:1px;
-  border-color: gray;
-  color:white;
-  padding: 1em 0em;
-  border-radius:50px;
-  children: [icon-search, entry];
-}
-
 
 listview {
-  columns:6;
-  fixed-columns:true;
   background-color: @transparent;
   border:none;
+  columns: 4;
+  lines: 1;
+  fixed-height:true;
+  fixed-columns:true;
+  spacing: 20px;
 }
 
 element {
   orientation: vertical;
-  children: [ element-icon, element-text ];
+  children: [element-text ];
   spacing: 5px;
+  padding:20px;
 }
 
 element-icon {
@@ -54,9 +49,10 @@ element-icon {
 }
 
 element-text {
+  font:"MesloLGSNerdFont-Regular 90";
   vertical-align: 0.5;
-  horizontal-align:0.5;
-    
+  horizontal-align: 0.35;
+  color:white;
 }
 
 element, element-text, element-icon {
@@ -75,6 +71,6 @@ element selected.normal {
 }
 
 element normal normal, element alternate normal{
-  background-color: @transparent;
+  background-color: #44444440;
   color:white;
 }

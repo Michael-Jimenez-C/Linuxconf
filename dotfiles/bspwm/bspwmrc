@@ -18,4 +18,4 @@ bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 feh --bg-center ~/.local/share/fondos/fondo.png &
 picom --config "$HOME/.config/picom/picom.conf" 2>/dev/null &
-polybar --config="$HOME/.config/polybar/config.ini" &
+/bin/bash $HOME/.config/polybar/launch.sh
