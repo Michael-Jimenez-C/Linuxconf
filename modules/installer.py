@@ -33,9 +33,11 @@ class Installer:
     def run(self):
         self.SetUpDirectories()
         self.PM.PackageSetup()
-        self.PM.installEnviroment(self.config.desktop)
-        cl.setUpDotfilesFor(self.config.desktop)
-        cl.InstallFonts()
+        if self.config.desktop:
+            self.PM.installEnviroment(self.config.desktop)
+            cl.setUpDotfilesFor(self.config.desktop)
+        if self.config.fonts:
+            cl.InstallFonts()
         cl.LoadConfigForTerminal(self.config.terminal, self.config.desktop)
         cl.installPowerLevel10K()
         if self.config.polybar:
