@@ -1,7 +1,7 @@
 import questionary
 from modules.commons import HOME, USER
-import sys
-
+from modules.pipxpackages import pipx_packages
+from modules.installer import Installer
 print("""
       No se recomienda ejecutar este script como superusuario.
       """)
@@ -10,100 +10,112 @@ print(f"""
     Se instalará como {USER} en {HOME}.
     """)
 
-if not questionary.confirm("Continuar la instalación?").ask():
-    sys.exit(0)
 
-opcion = questionary.select(
-    "Que gestor de paquetes se está utilizando?",
-    choices=[
-        'apt',
-        'pacman'
-    ]
-).ask()
+class Config:
+    def __init__(self):
+        self.pm = None
+        self.desktop = None
+        self.polybar = None
+        self.fonts = None
+        self.rust = None
+        self.rustAlreadyInstalled = None
+        self.yazi = None
+        self.terminal = None
+        self.wallust = None
+        self.pk_inst = None
+        self.pipx_inst = None
+    
+    def __repr__(self):
+        return str(getattr(self, '__dict__'))
 
-match opcion:
-    case 'apt':
-        from modules import deb as script
-    case 'pacman':
-        pass
+class Menu:
+    def __init__(self):
+        self.config = Config()
+        if not questionary.confirm("Continuar la instalación?").ask():
+            return
+        
+    def run(self):
+        self.getPM()
+        self.getDesktop()
+        self.getFonts()
+        self.getRust()
+        self.getTerminal()
+        self.getPK()
+        self.getPipx()
 
-desktop = questionary.select(
-    "Que entorno quiere utilizar",
-    choices=[
-        'bspwm',
-        'Ninguno'
-    ]
-).ask()
+        installer = Installer(self.config)
+    
+    def getPM(self):
+        self.config.pm = questionary.select(
+            "Que gestor de paquetes se está utilizando?",
+            choices=[
+                'apt',
+                'pacman'
+            ]
+        ).ask()
+    
+    def getDesktop(self):
+        self.config.desktop = questionary.select(
+            "Que entorno quiere utilizar",
+            choices=[
+                'bspwm',
+                'Ninguno'
+            ]
+        ).ask()
+        if self.config.desktop == 'Ninguno':
+            self.config.desktop = None
+        if self.config.desktop == 'bspwm':
+            self.getPolybar()
 
-fonts = questionary.confirm("Instalar fuentes Nerd Fonts?").ask()
+    def getPolybar(self):
+        self.config.polybar = questionary.select(
+            "Diseño de la polybar?",
+            choices=[
+                'Un solo panel',
+                'Varios paneles'
+            ]
+        ).ask()
+    
+    def getFonts(self):
+        self.config.fonts = questionary.confirm("Instalar fuentes Nerd Fonts?").ask()
 
-kind = None
-'''= questionary.select(
-    "Quieres copiar mis dotfiles o los de d3vjh?",
-    choices=[
-        'Michael',
-        'd3vjh'
-    ]
-).ask()'''
+    def getRust(self):
+        self.config.rust = questionary.confirm("Instalar rust? (esto permitirá instalar yazi)").ask()
+        self.config.rustAlreadyInstalled = False
+        if not self.config.rust:
+            self.config.rustAlreadyInstalled = questionary.confirm("Ya está instalado rust?").ask()
+        
+        if self.config.rust or self.config.rustAlreadyInstalled:
+            self.config.yazi = questionary.confirm("Instalar yazi?").ask()
+            self.config.wallust = questionary.confirm("Instalar wallust?").ask()
 
-rust = questionary.confirm("Instalar rust? (esto permitirá instalar yazi)").ask()
-rust_ = False
-if not rust:
-    rust_ = questionary.confirm("Ya está instalado rust?").ask()
+    def getTerminal(self):
+        self.config.terminal = questionary.select(
+            "Quieres instalar una terminal?",
+            choices=[
+                'gnome-terminal',
+                'kitty',
+                'blackbox-terminal',
+                'Ninguna'
+            ]
+        ).ask()
+    
+    def getPK(self):
+        pm = self.config.pm
+        if pm == 'apt':
+            import modules.deb.deb as packages
+        list_pk = packages.other_packages
+        self.config.pk_inst=questionary.checkbox(
+        f"Paquetes {pm} a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
+        ).ask()
 
-yazi = False
-if rust or rust_:
-    yazi = questionary.confirm("Instalar yazi?").ask()
+    def getPipx(self):
+        list_pk = pipx_packages
+        self.config.pipx_inst=questionary.checkbox(
+        f"Paquetes pipx a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
+        ).ask()
 
-terminal = questionary.select(
-    "Quieres instalar una terminal?",
-    choices=[
-        'gnome-terminal',
-        'kitty',
-        'blackbox-terminal',
-        'Ninguna'
-    ]
-).ask()
-
-wallust = None
-if rust or rust_:
-    wallust = questionary.confirm("Instalar wallust?").ask()
-
-list_pk = script.other_packages
-pk_inst=questionary.checkbox(
-f"Paquetes {opcion} a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
-).ask()
-
-list_pk = script.pipx_packages
-pipx_inst=questionary.checkbox(
-f"Paquetes pipx a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
-).ask()
-
-if __name__ == '__main__':
-
-    script.SetUpDirectories()
-
-    script.PackageSetup()
-
-    desktop != 'Ninguno' and script.installEnviroment(desktop)
-
-    fonts and script.InstallFonts()
-
-    script.setUpDotfilesFor(desktop, kind=kind)
-
-    script.installPowerLevel10K()
-
-    script.installNvim()
-
-    terminal != 'Ninguna' and script.installTerminal(terminal, desktop)
-
-    rust and script.setUpRust()
-    (rust or rust_) and yazi and script.installYazi()
-
-    (rust or rust_) and wallust and script.installWallust()
-
-    script.installOptionalPKG(pk_inst)
-    script.installPipxPKG(pipx_inst)
-
-
-    script.end(desktop)
+if "__main__"==__name__:
+    menu = Menu()
+    menu.run()
+    print(menu.config)
