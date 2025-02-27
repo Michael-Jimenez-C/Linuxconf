@@ -23,7 +23,7 @@ def installYazi():
     os.system(f"source {HOME}/.cargo/env")
     os.system("git clone https://github.com/sxyazi/yazi.git")
     os.chdir("yazi")
-    os.system("{HOME}/.cargo/bin/cargo build --release --locked")
+    os.system(f"{HOME}/.cargo/bin/cargo build --release --locked")
     time.sleep(1)
     os.system("mv target/release/yazi target/release/ya $HOME/.local/bin")
     os.chdir(PWD)

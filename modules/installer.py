@@ -26,7 +26,7 @@ class Installer:
         os.system("sudo mkdir -p /usr/share/fonts/truetype")
     
     def installPipxPKG(self):
-        for group in self.pipx_inst:
+        for group in self.config.pipx_inst:
             os.system(f"pipx install {' '.join(pipx_packages[group.split(':')[0]])}")
     
 
