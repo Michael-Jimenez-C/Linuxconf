@@ -4,7 +4,7 @@ from .deb import deb
 from modules.commons import HOME
 from modules.pipxpackages import pipx_packages
 
-import configLoader as cl
+import modules.configLoader as cl
 
 
 class Installer:
@@ -34,10 +34,10 @@ class Installer:
         self.SetUpDirectories()
         self.PM.PackageSetup()
         self.PM.installEnviroment(self.config.desktop)
+        cl.setUpDotfilesFor(self.config.desktop)
         cl.InstallFonts()
         cl.LoadConfigForTerminal(self.config.terminal, self.config.desktop)
         cl.installPowerLevel10K()
-        cl.setUpDotfilesFor(self.config.desktop)
         if self.config.polybar:
             cl.setUpPolybar(self.config.polybar)
         self.PM.setUpRust()
@@ -48,6 +48,6 @@ class Installer:
         self.PM.installNvim()
         self.PM.installTerminal(self.config.terminal)
         self.PM.installOptionalPKG(self.config.pk_inst)
-        self.installPipxPKG(self.config.pipx_inst)
+        self.installPipxPKG()
         print("Instalación completada")
         
