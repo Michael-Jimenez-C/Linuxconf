@@ -11,7 +11,7 @@ Este script es para instalar las herramientas que requiero de forma rapida y de 
 Requiere `python3-venv`
 ```sh
 python3 -m venv .venv
-source .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 python install.py
 ```
