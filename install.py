@@ -48,9 +48,9 @@ class Menu:
     
     def getPM(self):
         self.config.pm = questionary.select(
-            "Que gestor de paquetes se está utilizando?",
+            "seleccione la distro",
             choices=[
-                'apt',
+                'mint',
                 'pacman'
             ]
         ).ask()
@@ -103,8 +103,8 @@ class Menu:
     
     def getPK(self):
         pm = self.config.pm
-        if pm == 'apt':
-            import modules.deb.deb as packages
+        if pm == 'mint':
+            import modules.mint.deb as packages
         list_pk = packages.other_packages
         self.config.pk_inst=questionary.checkbox(
         f"Paquetes {pm} a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]

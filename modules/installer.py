@@ -1,5 +1,5 @@
 import os
-from .deb import deb
+from .mint import deb as mint
 
 from modules.commons import HOME
 from modules.pipxpackages import pipx_packages
@@ -11,8 +11,8 @@ class Installer:
     def __init__(self, config):
         self.config = config
         self.PM = None
-        if self.config.pm == 'apt':
-            self.PM = deb
+        if self.config.pm == 'mint':
+            self.PM = mint
     
     def SetUpDirectories(self):
         dirs = [
