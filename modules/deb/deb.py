@@ -5,7 +5,6 @@ import os
 
 def PackageSetup():
     os.system("sudo apt update")
-    os.system("sudo apt upgrade -y")
     os.system("sudo apt install -y " + " ".join(packages))
     os.system('chsh -s /usr/bin/zsh')
 

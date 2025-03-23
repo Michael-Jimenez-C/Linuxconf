@@ -36,6 +36,7 @@ def setUpDotfilesFor(desktop):
     if desktop == 'bspwm':
         for i in ['bspwm','sxhkd','picom','rofi']:
             os.system(f'cp -r {path}/{i} {HOME}/.config/')
+        os.system('chmod +x {HOME}/.config/rofi/powermenu/powermenu.sh')
     os.system(f'cp {path}/.zshrc {HOME}/.zshrc')
 
 def setUpPolybar(type):
