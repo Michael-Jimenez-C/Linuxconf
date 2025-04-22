@@ -1,3 +1,5 @@
+pkill polybar
+
 polybar battery &
 polybar center &
 polybar internet &

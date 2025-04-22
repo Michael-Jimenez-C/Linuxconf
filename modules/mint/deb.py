@@ -60,6 +60,6 @@ def installWallust():
             file.write('\n\n')
             file.write(f'wallust run {HOME}/.local/share/fondos/fondo.png >/dev/null &')
 
-def installOptionalPKG(groups):
-    for group in groups:
-        os.system("sudo apt install -y " + " ".join(other_packages[group.split(':')[0]]))
+def installOptionalPKG(packages):
+    for package in packages:
+        os.system("sudo apt install -y " + package)

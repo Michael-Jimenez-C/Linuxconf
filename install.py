@@ -43,8 +43,8 @@ class Menu:
         self.getPK()
         self.getPipx()
 
-        #installer = Installer(self.config)
-        #installer.run()
+        installer = Installer(self.config)
+        installer.run()
     
     def getPM(self):
         self.config.pm = questionary.select(
