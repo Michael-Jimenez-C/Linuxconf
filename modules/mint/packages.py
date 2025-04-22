@@ -35,7 +35,7 @@ desktop_packages = {
         ],
     'gnome':[
         'gnome-shell',
-        'ubuntu-gnome-desktop',
+        'ubuntu-desktop-minimal',
         'gnome-tweaks',
         'language-pack-gnome-es',
         'gnome-shell-extensions'

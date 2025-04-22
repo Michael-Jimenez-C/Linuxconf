@@ -1,15 +1,17 @@
 from .packages import packages, desktop_packages, terminal_packages, other_packages
-from modules.commons import HOME, USER, PWD
+from modules.commonconstants import HOME, USER, PWD
 import time
 import os
 
 def PackageSetup():
     os.system("sudo apt update")
-    os.system("sudo apt install -y " + " ".join(packages))
+    for i in packages:
+        os.system("sudo apt install -y " + i)
     os.system('chsh -s /usr/bin/zsh')
 
 def installEnviroment(desktop):
-    os.system("sudo apt install -y " + " ".join(desktop_packages[desktop]))
+    for i in desktop_packages[desktop]:
+        os.system("sudo apt install -y " + i)
     if desktop == 'bspwm':
         os.system(f"cp image/* {HOME}/.local/share/fondos/")
 

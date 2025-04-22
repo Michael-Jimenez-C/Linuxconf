@@ -1,5 +1,5 @@
 import os
-from modules.commons import HOME, USER, PWD
+from modules.commonconstants import HOME, USER, PWD
 
 def InstallFonts():
     os.system("wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.3.0/Meslo.zip")

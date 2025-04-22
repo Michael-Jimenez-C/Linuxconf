@@ -1,7 +1,7 @@
 import os
 from .mint import deb as mint
 
-from modules.commons import HOME
+from modules.commonconstants import HOME
 from modules.pipxpackages import pipx_packages
 
 import modules.configLoader as cl

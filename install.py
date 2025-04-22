@@ -1,5 +1,5 @@
 import questionary
-from modules.commons import HOME, USER
+from modules.commonconstants import HOME, USER
 from modules.pipxpackages import pipx_packages
 from modules.installer import Installer
 print("""
@@ -32,8 +32,8 @@ class Menu:
     def __init__(self):
         self.config = Config()
         if not questionary.confirm("Continuar la instalación?").ask():
-            return
-        
+            return  
+    
     def run(self):
         self.getPM()
         self.getDesktop()
@@ -43,15 +43,14 @@ class Menu:
         self.getPK()
         self.getPipx()
 
-        installer = Installer(self.config)
-        installer.run()
+        #installer = Installer(self.config)
+        #installer.run()
     
     def getPM(self):
         self.config.pm = questionary.select(
             "seleccione la distro",
             choices=[
-                'mint',
-                'pacman'
+                'mint'
             ]
         ).ask()
     
@@ -102,19 +101,24 @@ class Menu:
         ).ask()
     
     def getPK(self):
+        pm_packages = None
         pm = self.config.pm
+        packages = []
         if pm == 'mint':
-            import modules.mint.deb as packages
-        list_pk = packages.other_packages
-        self.config.pk_inst=questionary.checkbox(
-        f"Paquetes {pm} a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
-        ).ask()
+            import modules.mint.deb as pm_packages
+        list_pk = pm_packages.other_packages
+        for package in list_pk:
+            packages.extend(questionary.checkbox(
+            f"Paquetes adicionales del grupo {package} a instalar", choices=list_pk[package]).ask())
+        self.config.pk_inst = packages
 
     def getPipx(self):
         list_pk = pipx_packages
-        self.config.pipx_inst=questionary.checkbox(
-        f"Paquetes pipx a instalar", choices=[f'{i}:{" ".join(list_pk[i])}' for i in list_pk]
-        ).ask()
+        packages = []
+        for package in list_pk:
+            packages.extend(questionary.checkbox(
+            f"Paquetes pipx del grupo {package}", choices=list_pk[package]).ask())
+        self.config.pipx_inst = packages
 
 if "__main__"==__name__:
     menu = Menu()

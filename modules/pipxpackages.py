@@ -3,5 +3,7 @@ pipx_packages = {
     'Directorio Activo': [
         'ensurepath',
         'bloodhound-ce'
-        ]
+        ],
+    'python': ['uv'],
+    'data': ['dvc']
 }
