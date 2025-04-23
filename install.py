@@ -2,11 +2,13 @@ import questionary
 from modules.commonconstants import HOME, USER
 from modules.pipxpackages import pipx_packages
 from modules.installer import Installer
-print("""
+from modules.print_mod import info, warning
+
+warning("""
       No se recomienda ejecutar este script como superusuario.
       """)
 
-print(f"""
+info(f"""
     Se instalará como {USER} en {HOME}.
     """)
 
@@ -50,7 +52,7 @@ class Menu:
         self.config.pm = questionary.select(
             "seleccione la distro",
             choices=[
-                'mint'
+                'debian'
             ]
         ).ask()
     
@@ -104,8 +106,8 @@ class Menu:
         pm_packages = None
         pm = self.config.pm
         packages = []
-        if pm == 'mint':
-            import modules.mint.deb as pm_packages
+        if pm == 'debian':
+            import modules.deb.deb as pm_packages
         list_pk = pm_packages.other_packages
         for package in list_pk:
             packages.extend(questionary.checkbox(

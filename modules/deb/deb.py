@@ -11,6 +11,9 @@ def PackageSetup():
 
 def installEnviroment(desktop):
     for i in desktop_packages[desktop]:
+        if os.path.exists(f"./compiled/deb/{i}.deb"):
+            os.system(f"sudo apt install ./compiled/deb/{i}.deb")
+            continue
         os.system("sudo apt install -y " + i)
     if desktop == 'bspwm':
         os.system(f"cp image/* {HOME}/.local/share/fondos/")
