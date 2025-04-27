@@ -1,3 +1,9 @@
+# Atención
+
+Este repositorio lo archivé debido a que me pareció que el código era poco mantenible a futuro, por lo cual cree otro repositorio basado en esta configuración pero con una mejor gestión del flujo de la instalación
+
+proyecto: [auto linux setup](https://github.com/Michael-Jimenez-C/auto_linux_setup)
+
 # Resultado
 
 Este script es para instalar las herramientas que requiero de forma rapida y de forma semi automatica, aqui los ejemplos con bspwm.
